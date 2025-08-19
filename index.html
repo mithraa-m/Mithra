@@ -2,31 +2,127 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Happy Birthday Mrithveen 🎉</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Mrithveen</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, purple, pink);
+      overflow: hidden;
+      color: white;
+    }
+
+    .lock-screen, .secret-screen {
+      text-align: center;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      background: white;
+      color: purple;
+      margin-left: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .poem {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+
+    .photo {
+      max-width: 300px;
+      border-radius: 20px;
+      margin-top: 20px;
+      opacity: 0;
+      transition: opacity 2s ease-in;
+    }
+
+    .show {
+      opacity: 1;
+    }
+
+    .heart {
+      position: fixed;
+      font-size: 24px;
+      animation: fall 5s linear forwards;
+    }
+
+    @keyframes fall {
+      from { transform: translateY(-10vh); opacity: 1; }
+      to { transform: translateY(100vh); opacity: 0; }
+    }
+  </style>
 </head>
 <body>
-  <div id="lock-screen">
-    <h2>🔒 Enter Password to Unlock Surprise</h2>
-    <input type="password" id="password" placeholder="Enter password...">
+  <!-- Lock Screen -->
+  <div class="lock-screen" id="lockScreen">
+    <h1>🔒 Enter Password</h1>
+    <input type="password" id="passwordInput" placeholder="Password...">
     <button onclick="checkPassword()">Unlock</button>
-    <p id="hint"></p>
+    <p id="hint" style="color: yellow; margin-top: 15px;"></p>
   </div>
 
-  <div id="secret-screen" style="display:none;">
-    <div id="poem">
-      <p>🌸 In every smile, you bring light…</p>
-      <p>💖 In every laugh, you bring joy…</p>
-      <p>✨ May this day shine as bright as your heart…</p>
-      <p>🎂 Happy Birthday dear Mrithveen!</p>
+  <!-- Secret Screen -->
+  <div class="secret-screen hidden" id="secretScreen">
+    <div class="poem" id="poem">
+      <p>You’re such a special person to me ❤️</p>
+      <p>I just want you to stay happy… always ✨</p>
+      <p>Happy Birthday Mrithveen 🎉</p>
+      <p>And please, don’t ever become a stranger 🕊</p>
     </div>
-    <div id="photo-container">
-      <img src="photo.jpg" alt="Special Photo">
-    </div>
+    <img src="photo.jpg" alt="Special Photo" class="photo" id="photo">
   </div>
 
-  <canvas id="hearts-canvas"></canvas>
+  <script>
+    function checkPassword() {
+      const input = document.getElementById("passwordInput").value;
+      const lockScreen = document.getElementById("lockScreen");
+      const secretScreen = document.getElementById("secretScreen");
+      const photo = document.getElementById("photo");
+      const hint = document.getElementById("hint");
 
-  <script src="script.js"></script>
+      if (input.toLowerCase() === "mithra") {
+        lockScreen.classList.add("hidden");
+        secretScreen.classList.remove("hidden");
+        setTimeout(() => { photo.classList.add("show"); }, 2000);
+        startHearts();
+      } else {
+        hint.innerText = "Hint: Try your best friend's name 😉";
+      }
+    }
+
+    function startHearts() {
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerText = Math.random() > 0.5 ? "❤️" : "😘";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (3 + Math.random() * 2) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }, 500);
+    }
+  </script>
 </body>
 </html>
