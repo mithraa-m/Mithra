@@ -1,296 +1,32 @@
 <!DOCTYPE html>
-<html lang="ta">
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>For Mrithveen 💜</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --pink:#ff4db8;
-    --purple:#7c3aed;
-    --bg1:#170826;
-    --bg2:#2a0f45;
-    --glass:#ffffff18;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; color:#fff; font-family:Poppins,system-ui,Segoe UI,Roboto,Helvetica,Arial;
-    background:
-      radial-gradient(1200px 800px at 10% 10%, #3a165d88, transparent),
-      radial-gradient(1000px 700px at 90% 20%, #ff66cc22, transparent),
-      linear-gradient(135deg,var(--bg1),var(--bg2));
-    overflow:hidden;
-  }
-
-  /* Floating soft blobs */
-  .blob{position:fixed; filter:blur(60px); opacity:.25; z-index:0}
-  .b1{width:40vmax;height:40vmax; background:#ff4db8; left:-10vmax; top:-6vmax; animation: drift1 22s ease-in-out infinite}
-  .b2{width:38vmax;height:38vmax; background:#7c3aed; right:-12vmax; top:20vh; animation: drift2 28s ease-in-out infinite}
-  @keyframes drift1{0%{transform:translate(0,0)}50%{transform:translate(6vmax,4vmax)}100%{transform:translate(0,0)}}
-  @keyframes drift2{0%{transform:translate(0,0)}50%{transform:translate(-5vmax,-3vmax)}100%{transform:translate(0,0)}}
-
-  /* Center wrapper */
-  .wrap{position:relative; z-index:1; height:100%; display:grid; place-items:center; padding:20px}
-
-  /* Lock screen */
-  .lock{
-    width:min(680px,92vw); padding:26px 22px; border-radius:24px;
-    background:linear-gradient(180deg,#ffffff07,#ffffff10);
-    box-shadow:0 12px 34px #00000055, inset 0 0 0 1px #ffffff22;
-    backdrop-filter: blur(10px);
-    display:flex; flex-direction:column; gap:14px; align-items:center; text-align:center;
-    transform-origin:50% 50%;
-  }
-  .title{font-weight:800; font-size:clamp(22px,5.8vw,36px)}
-  .title .grad{
-    background:linear-gradient(90deg,#ff6bd5,#ff98e5,#d08bff,#8fa1ff);
-    -webkit-background-clip:text; background-clip:text; color:transparent; filter:drop-shadow(0 2px 8px #00000055);
-  }
-  .hint{opacity:.8}
-  .row{display:flex; gap:10px; width:100%; justify-content:center; flex-wrap:wrap}
-  .input{
-    padding:12px 14px; border-radius:14px; border:1px solid #ffffff30;
-    background:#0e0520a8; color:#fff; min-width:220px; outline:none; font-size:16px;
-  }
-  .btn{
-    border:none; border-radius:999px; padding:12px 18px; font-weight:700; cursor:pointer;
-    background:#fff; color:#1a0b2c; box-shadow:0 10px 20px #00000050;
-  }
-  .btn:active{transform:translateY(1px)}
-  .error{color:#ffd1e7; background:#ff2e6e22; border:1px solid #ff5fa2; padding:10px 12px; border-radius:12px; display:none}
-
-  /* Flip-away animation when unlocking */
-  .flipOut{animation: flipOut 700ms ease forwards}
-  @keyframes flipOut{
-    50%{transform:rotateX(70deg) scale(.96); opacity:.8}
-    100%{transform:rotateX(90deg) translateY(-8px); opacity:0}
-  }
-
-  /* Scene after unlock */
-  .card{
-    width:min(820px,94vw); border-radius:26px; padding:18px 16px 22px;
-    background:#ffffff10; box-shadow:0 12px 34px #00000060, inset 0 0 0 1px #ffffff22;
-    display:none; flex-direction:column; gap:14px; text-align:center; backdrop-filter: blur(10px);
-  }
-  h1{margin:4px 0 0; font-weight:800; font-size:clamp(28px,7vw,48px)}
-  .name{
-    background:linear-gradient(90deg,#ff4db8,#ff7ad1,#b073ff,#8aa0ff);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    text-shadow:0 0 20px #ff7ad144;
-  }
-  .stage{min-height:220px; display:grid; place-items:center; position:relative}
-  .line{font-size:clamp(18px,4.6vw,30px); padding:0 10px}
-  .fade{opacity:0; animation:fadeIn .9s forwards}
-  @keyframes fadeIn{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
-
-  .neon{font-weight:800; text-shadow:0 0 10px #ffd4f9, 0 0 18px #ff8be0}
-  .hand{font-family:Caveat, cursive; font-size:clamp(24px,6vw,40px); transform:rotate(-1.5deg)}
-  .type{border-right:2px solid #eee; white-space:pre-wrap; overflow:hidden; animation:caret 1s step-end infinite}
-  @keyframes caret{50%{border-color:transparent}}
-
-  /* Floating background hearts (scene 2) */
-  .bg-heart{position:absolute; inset:0; pointer-events:none; z-index:0; overflow:hidden}
-  .bg-heart span{
-    position:absolute; top:110%; font-size:22px; opacity:.15; animation:rise 14s linear infinite;
-    filter:drop-shadow(0 2px 6px #000);
-  }
-  @keyframes rise{
-    0%{transform:translateY(0) translateX(0) rotate(0)}
-    100%{transform:translateY(-220%) translateX(var(--drift)) rotate(360deg)}
-  }
-
-  /* Photo reveal */
-  .photo-wrap{display:none; margin-top:6px}
-  .photo{
-    width:min(380px,80vw); aspect-ratio:4/5; object-fit:cover; border-radius:22px;
-    box-shadow:0 18px 40px #00000070; border:2px solid #ffffff30;
-    animation: popIn .9s ease forwards; opacity:0;
-  }
-  .fallback{
-    width:min(380px,80vw); aspect-ratio:4/5; border-radius:22px; display:grid; place-items:center;
-    background:repeating-linear-gradient(135deg,#2d0a3f 0 16px,#3a0d57 16px 32px);
-    color:#ffd6f1; font-weight:700; letter-spacing:.3px; box-shadow:0 18px 40px #00000070; border:2px solid #ffffff30;
-    animation: popIn .9s ease forwards; opacity:0;
-  }
-  @keyframes popIn{from{transform:scale(.92); opacity:0} to{transform:scale(1); opacity:1}}
-
-  /* Hearts & kisses rain */
-  #rain{position:fixed; inset:0; pointer-events:none; z-index:5}
-</style>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Mrithveen 🎉</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- dreamy blobs -->
-  <div class="blob b1"></div><div class="blob b2"></div>
+  <div id="lock-screen">
+    <h2>🔒 Enter Password to Unlock Surprise</h2>
+    <input type="password" id="password" placeholder="Enter password...">
+    <button onclick="checkPassword()">Unlock</button>
+    <p id="hint"></p>
+  </div>
 
-  <div class="wrap">
-    <!-- LOCK SCREEN -->
-    <div id="lock" class="lock" aria-label="Secret gate">
-      <div class="title">🔒 Secret Gift for <span class="grad">Mrithveen</span></div>
-      <div class="hint">Enter the password to unlock the surprise ✨</div>
-      <div class="row">
-        <input id="pw" class="input" type="password" placeholder="Password" autocomplete="off" />
-        <button id="go" class="btn">Unlock</button>
-      </div>
-      <div id="msg" class="error"></div>
-      <div style="opacity:.7;font-size:14px">💡 Hint (if wrong): <em>“ungaloda peyar la thaan password 😉”</em></div>
+  <div id="secret-screen" style="display:none;">
+    <div id="poem">
+      <p>🌸 In every smile, you bring light…</p>
+      <p>💖 In every laugh, you bring joy…</p>
+      <p>✨ May this day shine as bright as your heart…</p>
+      <p>🎂 Happy Birthday dear Mrithveen!</p>
     </div>
-
-    <!-- SCENE AFTER UNLOCK -->
-    <div id="card" class="card" role="main" aria-live="polite">
-      <h1>Happy Birthday, <span class="name">Mrithveen</span>! 🎉</h1>
-      <div class="stage">
-        <!-- floating background hearts -->
-        <div class="bg-heart" id="bgHearts"></div>
-        <!-- message holder -->
-        <div id="line" class="line"></div>
-      </div>
-
-      <!-- photo -->
-      <div class="photo-wrap" id="photoWrap">
-        <img id="photo" class="photo" src="photo.jpg" alt="A favourite photo" onerror="this.style.display='none'; document.getElementById('fallback').style.display='grid';" />
-        <div id="fallback" class="fallback" style="display:none;">Upload <strong>photo.jpg</strong> 📷</div>
-      </div>
+    <div id="photo-container">
+      <img src="photo.jpg" alt="Special Photo">
     </div>
   </div>
 
-  <!-- hearts & kisses rain -->
-  <canvas id="rain"></canvas>
+  <canvas id="hearts-canvas"></canvas>
 
-<script>
-/* ====== PASSWORD GATE ====== */
-const PASSWORD = "mithra";
-const lock = document.getElementById('lock');
-const card = document.getElementById('card');
-const pw = document.getElementById('pw');
-const go = document.getElementById('go');
-const msg = document.getElementById('msg');
-
-function wrong(hint=true){
-  msg.textContent = hint ? "Oops! Illa da 🙂 Hint: ungaloda peyar la thaan password 😉" : "Try again!";
-  msg.style.display = 'block';
-  lock.animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}],{duration:300});
-}
-function unlock(){
-  if((pw.value||"").trim().toLowerCase() === PASSWORD){
-    msg.style.display='none';
-    lock.classList.add('flipOut');
-    setTimeout(()=>{
-      lock.style.display='none';
-      card.style.display='flex';
-      startScene(); // proceed
-    }, 650);
-  }else{
-    wrong(true);
-  }
-}
-go.addEventListener('click', unlock);
-pw.addEventListener('keydown', e=>{ if(e.key==='Enter') unlock(); });
-
-/* ====== SCENE 2: KAVIDHAI + PHOTO + RAIN ====== */
-const LINES = [
-  "உன் சிரிப்பு எனக்கோர் இசை 🎶",
-  "உன் நினைவு எனக்கோர் ராகம் 💜",
-  "இன்னும் பல கனவுகளின் நடுவில்—",
-  "நீ தான்டா என் கதை… ✨"
-];
-const lineBox = document.getElementById('line');
-const photoWrap = document.getElementById('photoWrap');
-let i=0;
-
-function showLine(txt, style='fade'){
-  const el = document.createElement('div');
-  el.className = `line ${style} ${style==='hand'?'hand':''} ${style==='neon'?'neon':''}`;
-  if(style==='type'){
-    el.classList.add('type');
-    let j=0; const t = setInterval(()=>{ el.textContent = txt.slice(0,++j); if(j>=txt.length) clearInterval(t); }, 26);
-  }else{
-    el.textContent = txt;
-  }
-  lineBox.replaceChildren(el);
-}
-
-function startScene(){
-  // background floating hearts
-  spawnBgHearts();
-  // sequence: 4 lines -> photo -> rain
-  const styles = ['fade','neon','hand','type'];
-  const step = ()=>{
-    if(i < LINES.length){
-      showLine(LINES[i], styles[i%styles.length]);
-      i++;
-      setTimeout(step, i===LINES.length ? 1500 : 1800);
-    }else{
-      // photo reveal
-      photoWrap.style.display='block';
-      // trigger rain after small delay
-      setTimeout(()=> startRain(14000), 600);
-    }
-  };
-  step();
-}
-
-/* Floating background hearts behind text */
-const bg = document.getElementById('bgHearts');
-function spawnBgHearts(){
-  const EMO = ['💜','💗','✨','💖'];
-  for(let k=0;k<18;k++){
-    const s = document.createElement('span');
-    s.textContent = EMO[k%EMO.length];
-    s.style.left = Math.random()*100+'%';
-    s.style.setProperty('--drift', (Math.random()*80-40)+'px');
-    s.style.animationDuration = (12+Math.random()*8)+'s';
-    s.style.fontSize = (18+Math.random()*18)+'px';
-    bg.appendChild(s);
-  }
-}
-
-/* ====== HEARTS & KISSES RAIN (canvas) ====== */
-const rain = document.getElementById('rain');
-const rctx = rain.getContext('2d');
-function resize(){ rain.width = innerWidth; rain.height = innerHeight; }
-addEventListener('resize', resize); resize();
-
-const EMOJIS = ['💜','💗','❤️','💋','✨'];
-let drops = [], raining=false, rafId=null;
-
-function spawnDrops(n){
-  for(let d=0; d<n; d++){
-    drops.push({
-      x: Math.random()*rain.width,
-      y: -20,
-      s: 20 + Math.random()*18,
-      v: 1.2 + Math.random()*1.8,
-      a: Math.random()*Math.PI*2,
-      e: EMOJIS[Math.floor(Math.random()*EMOJIS.length)]
-    });
-  }
-}
-
-function draw(){
-  rctx.clearRect(0,0,rain.width,rain.height);
-  drops.forEach(p=>{
-    p.y += p.v*2.2;
-    p.x += Math.sin(p.a += 0.02);
-    rctx.font = p.s+'px serif';
-    rctx.fillText(p.e, p.x, p.y);
-  });
-  drops = drops.filter(p=> p.y < rain.height + 40);
-  if(raining) rafId = requestAnimationFrame(draw);
-}
-
-function startRain(ms=10000){
-  raining=true;
-  const burst = setInterval(()=> spawnDrops(28), 160);
-  draw();
-  setTimeout(()=>{
-    clearInterval(burst);
-    setTimeout(()=>{ raining=false; cancelAnimationFrame(rafId); }, 1200);
-  }, ms);
-}
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
